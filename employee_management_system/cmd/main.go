@@ -26,6 +26,7 @@ func main() {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:5173",
+			"https://employee-management-system-olive-seven.vercel.app",
 		},
 		AllowMethods: []string{
 			"GET",
@@ -39,7 +40,12 @@ func main() {
 			"Content-Type",
 			"Authorization",
 		},
+		AllowCredentials: true,
 	}))
+
+	r.OPTIONS("/*path", func(c *gin.Context) {
+		c.AbortWithStatus(204)
+	})
 
 	r.POST("/api/register", controllers.Register)
 	r.POST("/api/login", controllers.Login)
